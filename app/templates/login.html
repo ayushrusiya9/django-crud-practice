@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login-Page
+{% endblock %}
+
+{% block Main %}
+
+  {% if msg1 %}
+      <p style="color:rgb(95, 93, 83);">{{msg1}}</p>
+  {% endif %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="border rounded p-4 shadow bg-light w-100" style="max-width: 400px;">
+    <h2 class="text-center mb-4">Login</h2>
+    <form action="{% url 'login' %}" method="POST">
+      {% csrf_token %}
+      
+      <div class="mb-3">
+        Email address
+        <input type="email" class="form-control" name="email" value="{{email}}" placeholder="Enter email">
+      </div>
+
+      <div class="mb-3">
+        Password
+        <input type="password" class="form-control" name="password" placeholder="Enter password">
+        <p style="color: red;">{{loginmsg}}</p>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+
+    <p class="text-center mt-3">
+      <small>Don't have an account? <a href="{% url 'open_form' %}">Ragister</a></small>
+    </p>
+  </div>
+</div>
+{% endblock %}

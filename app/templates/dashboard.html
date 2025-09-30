@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block nav %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark px-4">
+    <div>
+        <span class="navbar-brand">My Dashboard</span>
+        <a href="{% url 'query' %}" class="btn btn-outline-light">Query</a>
+        <a href="{% url 'show_query' %}" class="btn btn-outline-light">Show All Query</a>
+    </div>
+    <form action="{% url 'search' %}" method="post">
+        {% csrf_token %}
+        <input type="search" name="search">
+        <input type="submit" value="submit">
+    </form>
+    <a href="{% url 'log_out' %}" class="btn btn-outline-light">Logout</a>
+</nav>
+
+{% endblock %}
+
+{% block Main %}
+<!-- Main Section -->
+{{id}}
+<h2 class="mb-4">Welcome, {{data.name}}!</h2>
+<!-- <div class="container mt-4">
+    <a href="{{ document.url }}" download>Download File</a>
+     {{Image}} -->
+    <!-- <img src="{{ image.url }}" alt="" height="300px">
+</div> --> 
+
+<div class="card" style="width: 18rem;">
+    <img src="{{ data.image.url }}" class="card-img-top" alt="Profilr image" height="auto">
+    <div class="card-body">
+        <h5 class="card-title">{{ data.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{ data.email }}</h6>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+            content.</p>
+        <a href="{{ data.document.url }}" class="card-link" download>Resume</a>
+        <a href="#" class="card-link">Another link</a>
+    </div>
+</div>
+
+{% if query %}
+<form method="POST" action="{% url 'query' %}" >
+        {% csrf_token %}
+        <div class="mb-3">
+            Full Name
+            <input type="text" class="form-control w-50" name='name' placeholder="Enter your full name" value="{{ data.name }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            Email address
+            <input type="email" class="form-control w-50" name='email' placeholder="Enter your email" value="{{ data.email }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            Query <br>
+            <input class="form-control w-50" name="query" type="text">
+        </div>
+        <input type="submit" value="query">
+</form>
+
+{% endif %}
+
+<h1>{{msg}}</h1>
+{% if show_query %}
+
+<table border="1" class="table" >
+    <tr>
+        <th>S.no</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Query</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+    {% for i in show_query %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <!-- <td>{{ i.id }}</td> -->
+        <td>{{ i.Name }}</td>
+        <td>{{ i.Email }}</td>
+        <td>{{ i.Query }}</td>
+        <td><button><a href="{% url 'update_query' %}">Edit</a></button></td>
+        <td><button><a href="{% url 'Delete_query' pke=i.id %}">Delete</a></button></td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endif %}
+
+
+{% if olddata %}
+<form method="POST" action="{% url 'update_query' %}" >
+        {% csrf_token %}
+        <div class="mb-3">
+            Full Name
+            <input type="text" class="form-control w-50" name='name' placeholder="Enter your full name" value="{{ olddata.Name }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            Email address
+            <input type="email" class="form-control w-50" name='email' placeholder="Enter your email" value="{{ olddata.Email }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            Query <br>
+            <input class="form-control w-50" name="query" value="{{ olddata.Query }}" type="text">
+        </div>
+        <input type="submit" value="Update">
+</form>
+
+{% endif %}
+
+{% endblock %}

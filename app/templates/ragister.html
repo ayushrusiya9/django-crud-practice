@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Rasiter-Page
+{% endblock  %}
+
+{% block Main %}
+
+{% if open_form %}
+
+<h3 style="color:red; text-align:center;">{{alert}}</h3>
+
+<div class="container mt-5">
+    <h2 class="mb-4" style="text-align: center;">Ragister</h2>
+    <form method="POST" action="{% url 'open_form' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" name='name' placeholder="Enter your full name" value="{{ name }}"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" name='email' placeholder="Enter your email" value="{{ email }}"
+                required>
+            <p style="color:red;">{{msg}}</p>
+        </div>
+
+        <div class="mb-3">
+            <label for="contact" class="form-label">Contact Number</label>
+            <input type="tel" class="form-control" name='contact' placeholder="Enter contact number"
+                value="{{ contact }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Image</label>
+            <input class="form-control" type="file" name='image' value="{{image}}" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+            <label for="document" class="form-label">Upload Document</label>
+            <input class="form-control" type="file" name='document' accept=".pdf,.doc,.docx">
+        </div>
+
+        <div class="mb-3">
+            <label for="video" class="form-label">Upload Video</label>
+            <input class="form-control" type="file" name='video' accept="video/mp4">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input class="form-control" type="password" value="{{ password }}" name='password'>
+        </div>
+
+        <div class="mb-3">
+            <label for="cpassword" class="form-label">Confirm Password</label>
+            <input class="form-control" type="password" value="{{cpassword}}" name='cpassword'>
+            <p style="color:red;">{{msg2}}</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endif %}
+
+{% endblock %}
